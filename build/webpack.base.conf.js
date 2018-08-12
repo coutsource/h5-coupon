@@ -3,6 +3,8 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
+const TransformModulesPlugin = require('webpack-transform-modules-plugin')
+const PostCompilePlugin = require('webpack-post-compile-plugin')
 const HappyPack = require('happypack')
 const os = require('os')
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })
@@ -11,7 +13,16 @@ function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
-
+const createLintingRule = () => ({
+  test: /\.(js|vue)$/,
+  loader: 'eslint-loader',
+  enforce: 'pre',
+  include: [resolve('src'), resolve('test')],
+  options: {
+    formatter: require('eslint-friendly-formatter'),
+    emitWarning: !config.dev.showEslintErrorsInOverlay
+  }
+})
 
 module.exports = {
 
@@ -40,9 +51,12 @@ module.exports = {
       loaders: ['babel-loader?cacheDirectory=true'],
       threadPool: happyThreadPool,
     }),
+    new PostCompilePlugin(),
+    new TransformModulesPlugin()
   ],
   module: {
     rules: [
+      ...(config.dev.useEslint ? [createLintingRule()] : []),
       {
         test: /\.vue$/,
         loader: 'vue-loader',

@@ -1,0 +1,65 @@
+<template>
+  <div class="page">
+    <headersec tabname="我的兑换卡"></headersec>
+    <transition name="slide-go">
+      <div class="container" v-show="mainarea">
+        <van-coupon-list
+          :show-exchange-bar="false"
+          :show-close-button="false"
+          :editable="false"
+          :coupons="coupons"
+          :chosen-coupon="chosenCoupon"
+          :disabled-coupons="disabledCoupons"
+        />
+      </div>
+    </transition>
+  </div>
+</template>
+
+<script>
+import Headersec from '../base/HeaderSec.vue'
+import { CouponList } from 'vant'
+
+export default {
+  data() {
+    return {
+      mainarea: false,
+      chosenCoupon: -1,
+      coupons: [{
+        available: 1,
+        discount: 0,
+        denominations: 0,
+        origin_condition: 0,
+        reason: '',
+        value: 150,
+        name: this.$store.state.number,
+        start_at: 1489104000,
+        end_at: 1514592000
+      }],
+      disabledCoupons: []
+    }
+  },
+  components: {
+    Headersec,
+    [CouponList.name]: CouponList
+  },
+  mounted() {
+    this.mainarea = true
+  },
+  methods: {
+  }
+}
+</script>
+
+<style lang="less" scoped>
+.container {
+  text-align: center;
+  img {
+    margin-top: .3rem;
+  }
+  p {
+    margin-top: .3rem;
+    font-size: .28rem;
+  }
+}
+</style>

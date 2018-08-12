@@ -1,16 +1,21 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-//import Index from '@/components/Index'
-//import Category from '@/components/Category/Category'
-//import Cart from '@/components/Cart/Cart'
-//import Member from '@/components/Member/Member'
-//import Order from '@/components/Order/Order'
-//import Address from '@/components/Address/Address'
-//import AddAddress from '@/components/Address/AddAddress'
-//import Detail from '@/components/Detail/Detail'
-//import OrderWait from '@/components/Order/OrderWait'
+// import Index from '@/components/Index'
+// import Category from '@/components/Category/Category'
+// import Cart from '@/components/Cart/Cart'
+// import Member from '@/components/Member/Member'
+// import Order from '@/components/Order/Order'
+// import Address from '@/components/Address/Address'
+// import AddAddress from '@/components/Address/AddAddress'
+// import Detail from '@/components/Detail/Detail'
+// import OrderWait from '@/components/Order/OrderWait'
 Vue.use(Router)
 
+const Login = (resolve) => {
+  import('@/components/Login/Login').then((module) => {
+    resolve(module)
+  })
+}
 const Index = (resolve) => {
   import('@/components/Index').then((module) => {
     resolve(module)
@@ -21,27 +26,31 @@ const Category = (resolve) => {
     resolve(module)
   })
 }
-const Cart = (resolve) =>{
-	import('@/components/Cart/Cart').then((module) =>{
-		resolve(module)
-	})
+const Cart = (resolve) => {
+  import('@/components/Cart/Cart').then((module) => {
+    resolve(module)
+  })
 }
-const Member = (resolve) =>{
-	import('@/components/Member/Member').then((module) =>{
-		resolve(module)
-	})
+const Member = (resolve) => {
+  import('@/components/Member/Member').then((module) => {
+    resolve(module)
+  })
 }
-const Info = (resolve) =>{
-	import('@/components/Member/Info').then((module) =>{
-		resolve(module)
-	})
+const Info = (resolve) => {
+  import('@/components/Member/Info').then((module) => {
+    resolve(module)
+  })
 }
-const Order = (resolve) =>{
-	import('@/components/Order/Order').then((module) =>{
-		resolve(module)
-	})
+const Card = (resolve) => {
+  import('@/components/Card/Card').then((module) => {
+    resolve(module)
+  })
 }
-
+const Order = (resolve) => {
+  import('@/components/Order/Order').then((module) => {
+    resolve(module)
+  })
+}
 const Address = (resolve) => {
   import('@/components/Address/Address').then((module) => {
     resolve(module)
@@ -52,42 +61,51 @@ const AddAddress = (resolve) => {
     resolve(module)
   })
 }
-const Detail = (resolve) =>{
-	import('@/components/Detail/Detail').then((module) =>{
-		resolve(module)
-	})
+const Detail = (resolve) => {
+  import('@/components/Detail/Detail').then((module) => {
+    resolve(module)
+  })
 }
-const OrderWait = (resolve) =>{
-	import('@/components/Order/OrderWait').then((module) =>{
-		resolve(module)
-	})
+const OrderWait = (resolve) => {
+  import('@/components/Order/OrderWait').then((module) => {
+    resolve(module)
+  })
 }
-const WaitPay = (resolve) =>{
-	import('@/components/Order/WaitPay').then((module) =>{
-		resolve(module)
-	})
+const WaitPay = (resolve) => {
+  import('@/components/Order/WaitPay').then((module) => {
+    resolve(module)
+  })
 }
-const WaitDeliver = (resolve) =>{
-	import('@/components/Order/WaitDeliver').then((module) =>{
-		resolve(module)
-	})
+const WaitDeliver = (resolve) => {
+  import('@/components/Order/WaitDeliver').then((module) => {
+    resolve(module)
+  })
 }
-const WaitReceive = (resolve) =>{
-	import('@/components/Order/WaitReceive').then((module) =>{
-		resolve(module)
-	})
+const WaitReceive = (resolve) => {
+  import('@/components/Order/WaitReceive').then((module) => {
+    resolve(module)
+  })
 }
-const OrderDown = (resolve) =>{
-	import('@/components/Order/OrderDown').then((module) =>{
-		resolve(module)
-	})
+const OrderDown = (resolve) => {
+  import('@/components/Order/OrderDown').then((module) => {
+    resolve(module)
+  })
+}
+const LogisticsStep = (resolve) => {
+  import('@/components/Logistics/Step').then((module) => {
+    resolve(module)
+  })
 }
 export default new Router({
-//	 mode: 'history',
-routes: [
+//   mode: 'history',
+  routes: [
+    {
+      path: '/login',
+      component: Login
+    },
     {
       path: '/',
-      component: Index
+      component: Login
     },
     {
       path: '/index',
@@ -109,7 +127,11 @@ routes: [
       path: '/info',
       component: Info
     },
-     {
+    {
+      path: '/card',
+      component: Card
+    },
+    {
       path: '/order',
       component: Order
     },
@@ -141,9 +163,13 @@ routes: [
       path: '/waitreceive',
       component: WaitReceive
     },
-     {
+    {
       path: '/orderdown',
       component: OrderDown
     },
-]
-})	
+    {
+      path: '/logisticsstep',
+      component: LogisticsStep
+    }
+  ]
+})
