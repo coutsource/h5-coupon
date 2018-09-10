@@ -102,11 +102,11 @@ export default {
     ...mapGetters([
       'carts',
       'comname',
-      'showadvertising'
+      'this.$store.state.showadvertising'
     ])
   },
   mounted() {
-    if (this.showadvertising) {
+    if (this.$store.state.showadvertising) {
       const percentInter = setInterval(() => {
         this.percent = this.percent - 2
       }, 100)
@@ -142,7 +142,11 @@ export default {
     /* 获取商品列表 */
     getGoodsList() {
       const that = this
-      this.$http.get('/api/homedata').then(function(res) {
+      this.$http.get('/api/category_products', {
+        headers: {
+          'Authorization': this.$store.state.authtoken
+        }
+      }).then(function(res) {
         that.productList = res.data.data
       })
         .catch(function(error) {
@@ -152,7 +156,11 @@ export default {
     /* 获取轮播列表 */
     getBannerList() {
       const that = this
-      this.$http.get('/api/bannerdata').then(function(res) {
+      this.$http.get('/api/banners', {
+        headers: {
+          'Authorization': this.$store.state.authtoken
+        }
+      }).then(function(res) {
         that.bannerList = res.data.data
       })
         .catch(function(error) {

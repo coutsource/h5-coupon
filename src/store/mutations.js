@@ -9,6 +9,12 @@ const matutaions = {
   [types.SET_LOGOUT](state, islogin) {
     state.islogin = islogin
   },
+  [types.SET_USER](state, user) {
+    state.user = user
+  },
+  [types.SET_TOKEN](state, token) {
+    state.authtoken = token
+  },
   /* 卡片管理 */
   [types.ADD_CARD](state, card) {
     state.cards.push(card)

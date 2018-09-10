@@ -98,11 +98,13 @@ export default {
       'this.$store.state.comname'
     ]),
     currentAddress() {
+      let currentAddress = ''
       if (this.$store.state.chooseaddress !== '') {
-        return this.$store.state.chooseaddress
+        currentAddress = this.$store.state.chooseaddress
       } else {
-        return this.$store.state.defaultaddress
+        currentAddress = this.$store.state.defaultaddress
       }
+      return currentAddress
     }
   },
   mounted() {

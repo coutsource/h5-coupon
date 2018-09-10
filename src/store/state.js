@@ -1,4 +1,5 @@
 const state = {
+  authtoken: '',
   address: [],
   chooseaddress: '',
   defaultaddress: '',
@@ -9,6 +10,7 @@ const state = {
   number: '123456789',
   islogin: false,
   cards: [],
-  showadvertising: true
+  showadvertising: true,
+  user: {}
 }
 export default state

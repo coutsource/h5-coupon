@@ -109,66 +109,114 @@ export default new Router({
     },
     {
       path: '/index',
+      meta: {
+        requireAuth: true
+      },
       component: Index
     },
     {
       path: '/category',
+      meta: {
+        requireAuth: true
+      },
       component: Category
     },
     {
       path: '/cart',
+      meta: {
+        requireAuth: true
+      },
       component: Cart
     },
     {
       path: '/member',
+      meta: {
+        requireAuth: true
+      },
       component: Member
     },
     {
       path: '/info',
+      meta: {
+        requireAuth: true
+      },
       component: Info
     },
     {
       path: '/card',
+      meta: {
+        requireAuth: true
+      },
       component: Card
     },
     {
       path: '/order',
+      meta: {
+        requireAuth: true
+      },
       component: Order
     },
     {
       path: '/address',
+      meta: {
+        requireAuth: true
+      },
       component: Address
     },
     {
       path: '/addaddress',
+      meta: {
+        requireAuth: true
+      },
       component: AddAddress
     },
     {
       path: '/detail',
+      meta: {
+        requireAuth: true
+      },
       component: Detail
     },
     {
       path: '/orderwait',
+      meta: {
+        requireAuth: true
+      },
       component: OrderWait
     },
     {
       path: '/waitpay',
+      meta: {
+        requireAuth: true
+      },
       component: WaitPay
     },
     {
       path: '/waitdeliver',
+      meta: {
+        requireAuth: true
+      },
       component: WaitDeliver
     },
     {
       path: '/waitreceive',
+      meta: {
+        requireAuth: true
+      },
       component: WaitReceive
     },
     {
       path: '/orderdown',
+      meta: {
+        requireAuth: true
+      },
       component: OrderDown
     },
     {
       path: '/logisticsstep',
+      meta: {
+        requireAuth: true
+      },
       component: LogisticsStep
     }
   ]

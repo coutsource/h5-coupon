@@ -57,7 +57,7 @@ export default {
       havePage: false,
       mainarea: false,
       isShowPasswd: false,
-      number: '123456789',
+      number: '',
       passwd: '',
       numError: { error: false, msg: '' },
       pwdError: { error: false, msg: '' }
@@ -65,11 +65,18 @@ export default {
   },
   mounted() {
     const vm = this
+    if (this.$route.query.number) {
+      this.number = this.$route.query.number
+    }
     vm.mainarea = true
     vm.havePage = true
     if (this.islogin) {
+      let redirect = '/login'
+      if (this.$route.query.redirect) {
+        redirect = this.$route.query.redirect
+      }
       this.$router.push({
-        path: '/index'
+        path: redirect
       })
     }
   },
@@ -97,16 +104,18 @@ export default {
     submit() {
       if (this.validate.result) {
         const params = {
-          number: this.number,
-          passwd: md5(this.passwd)
+          code: this.number,
+          passwd: this.passwd
         }
-        this.$http.post('/api/card/validate', params).then((res) => {
-          if (params.number === res.data.number && md5(this.passwd) === res.data.passwd) {
+        this.$http.post('/api/conversion_codes/login', params).then((res) => {
+          if (res.status = 200 && res.data.code == 200) {
             this.$router.push({
               path: '/index'
             })
             this.setLogin(true)
             this.addCard(this.number)
+            this.setUser(res.data.user)
+            this.setToken('Bearer ' + res.data.user.api_token)
           } else {
             this.numError.msg = '用户名或者密码不正确'
             this.pwdError.msg = '用户名或者密码不正确'
@@ -133,7 +142,9 @@ export default {
     },
     ...mapMutations({
       setLogin: 'SET_LOGIN',
-      addCard: 'ADD_CARD'
+      addCard: 'ADD_CARD',
+      setUser: 'SET_USER',
+      setToken: 'SET_TOKEN'
     })
   },
   components: {

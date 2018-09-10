@@ -11,11 +11,14 @@ import Vconsole from 'vconsole'
 const vConsole = new Vconsole()
 export default vConsole
 var VueTouch = require('vue-touch')
-require('../mock')
+// require('../mock')
 fastclick.attach(document.body) /* 解决移动端点击事件200ms延迟 */
 
 Vue.use(Vuex)
-Vue.prototype.$http = axios;
+// // axios
+axios.defaults.baseURL = 'http://localhost:8000'
+axios.defaults.headers.post['Content-Type'] = 'application/json'
+Vue.prototype.$http = axios
 Vue.use(VueTouch, {
   name: 'v-touch'
 }) /* 滑动事件 */
@@ -35,6 +38,23 @@ Vue.use(VueLazyLoad, { /* 懒加载声明错误图和占位图 */
   error: './static/img/github.png',
   loading: './static/img/github.png'
 })
+
+// 路由判断登录 根据路由配置文件的参数
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requireAuth)) {
+    if (store.state.authtoken) {
+      next();
+    } else {
+      next({
+        path: '/',
+        query: { redirect: to.fullPath }
+      })
+    }
+  } else {
+    next()
+  }
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
