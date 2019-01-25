@@ -7,16 +7,17 @@ import store from './store'
 import axios from 'axios'
 import VueLazyLoad from 'vue-lazyload'
 import fastclick from 'fastclick'
-import Vconsole from 'vconsole'
-const vConsole = new Vconsole()
-export default vConsole
+// import Vconsole from 'vconsole'
+// const vConsole = new Vconsole()
+// export default vConsole
 var VueTouch = require('vue-touch')
 // require('../mock')
 fastclick.attach(document.body) /* 解决移动端点击事件200ms延迟 */
 
 Vue.use(Vuex)
 // // axios
-axios.defaults.baseURL = 'http://localhost:8000'
+// axios.defaults.baseURL = 'http://admin.laravelshop.com'
+axios.defaults.baseURL = 'http://admin.wsc18.cn'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 Vue.prototype.$http = axios
 Vue.use(VueTouch, {

@@ -42,6 +42,41 @@ import Headers from '../base/Header.vue'
 import Footers from '../base/Footer.vue'
 import Message from '../base/Message.vue'
 import { mapGetters, mapMutations } from 'vuex'
+
+const formatMenuList = (data) => {
+  let result = []
+  result = data.map((dataItem) => {
+    return {
+      cat_name: dataItem.title
+    }
+  })
+  return result
+}
+
+const formatCategroyList = (data) => {
+  let result = []
+  result = data.map((dataItem) => {
+    const cart = dataItem.goods.map((goodItem) => {
+      return {
+        CategoryId: dataItem.id,
+        GoodsName: goodItem.title,
+        GoodsPrice: goodItem.price,
+        GoodsNum: 0,
+        GoodsImage: goodItem.image,
+        GoodsDescription: goodItem.description
+      }
+    })
+    return {
+      busines: {
+        business_id: dataItem.id,
+        business_name: dataItem.title
+      },
+      cart: cart
+    }
+  })
+  return result
+}
+
 export default {
   data() {
     return {
@@ -84,8 +119,12 @@ export default {
     /* 获取分类栏目 */
     getMenuList: function() {
       const that = this
-      this.$http.get('/api/menudata', {}).then(function(res) {
-        that.menuList = res.data.data
+      this.$http.get('/api/categories', {
+        headers: {
+          'Authorization': this.$store.state.authtoken
+        }
+      }).then(function(res) {
+        that.menuList = formatMenuList(res.data)
       })
         .catch(function(error) {
           console.log(error)
@@ -94,8 +133,12 @@ export default {
     /* 获取分类列表 */
     getCategoryList: function() {
       const that = this
-      this.$http.post('/api/categorydata', {}).then(function(res) {
-        that.categoryList = res.data.data
+      this.$http.get('/api/category_products', {
+        headers: {
+          'Authorization': this.$store.state.authtoken
+        }
+      }).then(function(res) {
+        that.categoryList = formatCategroyList(res.data)
         that.categoryContent = that.categoryList[0]
       })
         .catch(function(error) {

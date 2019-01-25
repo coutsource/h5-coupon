@@ -12,7 +12,7 @@
               <img src="../../../static/img/icon/item_address.png" />
               <div class="flex-align-center flex-between">
                 <p v-show="!currentAddress">选择送货地址</p>
-                <p v-show="currentAddress">{{currentAddress}}</p>
+                <p v-show="currentAddress">{{this.$store.state.chooseaddress}}</p>
                 <img src="../../../static/img/icon/arrowRight.png" alt="" />
               </div>
             </div>
@@ -54,9 +54,11 @@ import Headersec from '../base/HeaderSec.vue'
 import Nopage from '../base/NoPage.vue'
 import { mapGetters, mapMutations } from 'vuex'
 import { Cell, CellGroup, Popup, CouponCell, CouponList, Toast } from 'vant'
+
 export default {
   data() {
     return {
+      currentAddress: this.$store.state.chooseaddress,
       allCoach: 0,
       havePage: false,
       mainarea: false,
@@ -73,7 +75,7 @@ export default {
         origin_condition: 0,
         reason: '',
         value: 100,
-        name: '123456789',
+        name: this.$store.state.cards[this.$store.state.cards.length - 1],
         start_at: 1489104000,
         end_at: 1514592000
       }],
@@ -92,20 +94,12 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'this.$store.state.cards',
       'this.$store.state.orders',
       'this.$store.state.chooseaddress',
       'this.$store.state.defaultaddress',
       'this.$store.state.comname'
-    ]),
-    currentAddress() {
-      let currentAddress = ''
-      if (this.$store.state.chooseaddress !== '') {
-        currentAddress = this.$store.state.chooseaddress
-      } else {
-        currentAddress = this.$store.state.defaultaddress
-      }
-      return currentAddress
-    }
+    ])
   },
   mounted() {
     const that = this

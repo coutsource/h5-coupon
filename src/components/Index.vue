@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <message ref="message"></message>
-    <headers tabname="零食商店"></headers>
+    <headers tabname="首页"></headers>
     <!-- ad popup -->
     <van-popup v-model="this.$store.state.showadvertising" :close-on-click-overlay="false" class="popup-box">
       <van-row>
@@ -41,8 +41,8 @@
                     </div>
                 </div>
                 <div class="productContent">
-                    <div class="productBox flex" ref='div'>
-                        <div class="productItem" v-for="goodsItem in productItem.SalesProduct">
+                    <van-row class="productBox" ref='div'>
+                        <van-col :span=12 class="productItem" v-for="goodsItem in productItem.SalesProduct" :key="goodsItem.GoodsName">
                             <div class="itemBox">
                                 <div @click="onGoodsDetail(goodsItem, goodsItem.CategoryId)">
                                     <img v-lazy="goodsItem.GoodsImage" class="itemImg" />
@@ -57,8 +57,8 @@
                                     <img src="../../static/img/icon/shop_addCart_select.png" @click="onAddCart(goodsItem, goodsItem.GoodsName)" v-show="goodsItem.shopAddCart" />
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        </van-col>
+                    </van-row>
                 </div>
             </div>
         </div>
@@ -76,6 +76,42 @@ import '../../static/css/swiper.min.css'
 import Swiper from '../../static/js/swiper.min'
 import { mapGetters, mapMutations } from 'vuex'
 import { Row, Col, Popup, Progress } from 'vant'
+
+const formatBanner = (banners) => {
+  let result = []
+  result = banners.map((bannerItem) => {
+    return {
+      id: bannerItem.id,
+      img: bannerItem.image
+    }
+  })
+  return result
+}
+
+const formatProductGoods = (data) => {
+  let result = []
+  result = data.map((dataItem) => {
+    const salesProduct = dataItem.goods.map((goodItem) => {
+      return {
+        CategoryId: dataItem.id,
+        GoodsName: goodItem.title,
+        GoodsPrice: goodItem.price,
+        GoodsNum: 0,
+        GoodsImage: goodItem.image,
+        GoodsDescription: goodItem.description
+      }
+    })
+    return {
+      Category: {
+        id: dataItem.id,
+        TopText: dataItem.title,
+        TopNum: 'more'
+      },
+      SalesProduct: salesProduct
+    }
+  })
+  return result
+}
 
 export default {
   data() {
@@ -134,6 +170,8 @@ export default {
       this.slidename = 'slide-go'
     }
     this.setComname('index')
+
+    this.getAddresses()
   },
   methods: {
     closeAd() {
@@ -147,7 +185,7 @@ export default {
           'Authorization': this.$store.state.authtoken
         }
       }).then(function(res) {
-        that.productList = res.data.data
+        that.productList = formatProductGoods(res.data)
       })
         .catch(function(error) {
           console.log(error)
@@ -161,7 +199,7 @@ export default {
           'Authorization': this.$store.state.authtoken
         }
       }).then(function(res) {
-        that.bannerList = res.data.data
+        that.bannerList = formatBanner(res.data)
       })
         .catch(function(error) {
           console.log(error)
@@ -175,6 +213,7 @@ export default {
           id: id
         }
       })
+      console.log(item)
       this.setGoods(item)
     },
     /* 添加到购物车 */
@@ -193,6 +232,19 @@ export default {
     onCategory(index) {
       this.setTabindex(index)
       this.$router.push('./category')
+    },
+    getAddresses() {
+      const that = this
+      this.$http.get('/api/addresses', {
+        headers: {
+          'Authorization': this.$store.state.authtoken
+        }
+      }).then(function(res) {
+        that.$store.state.address = formatAddresses(res.data)
+      })
+        .catch(function(error) {
+          console.log(error)
+        })
     },
     ...mapMutations({
       setGoods: 'SET_GOODS',
@@ -235,15 +287,15 @@ export default {
         margin-bottom: .88rem;
     }
     .productItem {
-        width: 3.8rem;
+        /*width: 3.8rem;*/
         box-sizing: border-box;
         margin-bottom: .2rem;
         padding: 0 .2rem;
         flex:1;
-        &:nth-child(odd) {
+        /*&:nth-child(odd) {
             margin-right: 2%;
             border-right: 1px solid #ccc;
-        }
+        }*/
     }
 
     .itemImg {

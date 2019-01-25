@@ -5,7 +5,7 @@
       <div class="container" v-show="mainarea">
         <div class="floor floor_one">
           <img src="../../../build/github.png" alt="" />
-          <p>Open Free Share</p>
+          <p>您好！</p>
         </div>
         <div class="floor floor_item floor_two  flex-align-center flex-between" @click="onInfo">
           <p>个人信息</p>

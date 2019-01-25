@@ -4,7 +4,7 @@
     <transition name="slide-go">
       <div class="container" v-show="mainarea">
         <img src="../../../static/img/github.png" alt="" />
-        <p>wechat:374139613</p>
+        <p>用户信息展示</p>
       </div>
     </transition>
   </div>

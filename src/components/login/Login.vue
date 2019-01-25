@@ -49,7 +49,7 @@ import Header from '../base/Header.vue'
 import NoPage from '../base/NoPage.vue'
 import { CellGroup, Field, Row, Col, Button } from 'vant'
 import { mapGetters, mapMutations } from 'vuex'
-import md5 from 'js-md5'
+// import md5 from 'js-md5'
 export default {
   data() {
     return {
@@ -108,7 +108,7 @@ export default {
           passwd: this.passwd
         }
         this.$http.post('/api/conversion_codes/login', params).then((res) => {
-          if (res.status = 200 && res.data.code == 200) {
+          if (res.status === 200 && res.data.code === 200) {
             this.$router.push({
               path: '/index'
             })

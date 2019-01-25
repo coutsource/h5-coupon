@@ -21,6 +21,25 @@ import { AddressList } from 'vant'
 import Headersec from '../base/HeaderSec.vue'
 import Nopage from '../base/NoPage.vue'
 import { mapGetters, mapMutations } from 'vuex'
+
+const formatAddresses = (data) => {
+  let addresses = []
+  addresses = data.map((item) => {
+    return {
+      id: item.id,
+      province: item.province,
+      city: item.city,
+      county: item.district,
+      address_detail: item.address,
+      area_code: item.area_code,
+      postal_code: item.zip,
+      name: item.contact_name,
+      tel: item.contact_phone
+    }
+  })
+  return addresses
+}
+
 export default {
   data() {
     return {
@@ -66,6 +85,7 @@ export default {
       this.slidename = 'slide-go'
     }
     this.setComname('address')
+    this.getAddresses();
   },
   methods: {
     ...mapMutations({
@@ -73,6 +93,19 @@ export default {
       setIschoose: 'SET_ISCHOOSE',
       setComname: 'SET_COMNAME'
     }),
+    getAddresses() {
+      const that = this
+      this.$http.get('/api/addresses', {
+        headers: {
+          'Authorization': this.$store.state.authtoken
+        }
+      }).then(function(res) {
+        that.$store.state.address = formatAddresses(res.data)
+      })
+        .catch(function(error) {
+          console.log(error)
+        })
+    },
     onAdd() {
       this.$router.push('./addaddress')
     },

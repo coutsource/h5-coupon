@@ -12,6 +12,7 @@
           <div class="detail-content">
             <p class="goods-name">{{$store.state.goods.GoodsName}}</p>
             <p class="goods-price">¥{{$store.state.goods.GoodsPrice}}</p>
+            <div v-html=$store.state.goods.GoodsDescription ></div>
           </div>
         </div>
       </div>

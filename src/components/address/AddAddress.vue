@@ -7,9 +7,8 @@
           <van-address-edit
             :area-list="addressList"
             :address-info="addressInfo"
-            show-postal
+            :show-postal=false
             :show-delete="isShowDelete"
-            show-set-default
             show-search-result
             :search-result="searchResult"
             @save="onSave"
@@ -27,6 +26,21 @@ import { AddressEdit } from 'vant'
 import Headersec from '../base/HeaderSec.vue'
 import initCityPicker from '../../../static/js/area.js'
 import { mapGetters, mapMutations } from 'vuex'
+
+const formatAddress = (item) => {
+  return {
+    id: item.id,
+    province: item.province,
+    city: item.city,
+    district: item.county,
+    address: item.address_detail,
+    area_code: item.area_code,
+    zip: '000000',
+    contact_name: item.name,
+    contact_phone: item.tel
+  }
+}
+
 export default {
   data() {
     return {
@@ -63,6 +77,7 @@ export default {
     if (vm.$route.query.index !== undefined) {
       vm.$store.state.address.forEach((item) => {
         if (item.id === vm.$route.query.index) {
+          console.log(item)
           vm.addressInfo = item
         }
       })
@@ -72,11 +87,31 @@ export default {
   methods: {
     /* 保存地址 */
     onSave(content) {
+      const that = this
       if (this.$route.query.index !== undefined) {
-        this.editAddress(content)
+        this.$http.put('/api/address/' + this.$route.query.index, formatAddress(content), {
+          headers: {
+            'Authorization': this.$store.state.authtoken
+          }
+        }).then(function(res) {
+          that.editAddress(content)
+        })
+          .catch(function(error) {
+            console.log(error)
+          })
       } else {
-        content.id = this.$store.state.address.length + 1
-        this.setAddress(content)
+        content.postal_code = '000000'
+        this.$http.post('/api/address/store', content, {
+          headers: {
+            'Authorization': this.$store.state.authtoken
+          }
+        }).then(function(res) {
+          content.id = res.data.id
+          this.setAddress(content)
+        })
+          .catch(function(error) {
+            console.log(error)
+          })
       }
       if (content.is_default === true) {
         const space = ' '
@@ -92,8 +127,17 @@ export default {
       setDefaultAddress: 'SET_DEFAULTADDRESS',
       setComname: 'SET_COMNAME'
     }),
-    onDelete() {
-      this.delAddress(this.$route.query.index)
+    onDelete(content) {
+      this.$http.delete('/api/address/' + content.id, {
+        headers: {
+          'Authorization': this.$store.state.authtoken
+        }
+      }).then(function(res) {
+      })
+        .catch(function(error) {
+          console.log(error)
+        })
+      this.delAddress(content.id)
       this.$router.back()
     },
     onChangeDetail(val) {
@@ -185,7 +229,7 @@ export default {
     }
 
     input {
-        font-size: 0.32rem;
+        font-size: 0.42rem;
         width: 100%;
         text-align: center;
         margin-top: .3rem;

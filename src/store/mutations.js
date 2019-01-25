@@ -29,6 +29,9 @@ const matutaions = {
   },
   /* 购物车 */
   [types.SET_CARTS](state, carts) {
+    if (carts.GoodsNum === 0) {
+      carts.GoodsNum = 1
+    }
     cartArr.push(carts)
     state.carts = cartArr
   },
@@ -54,9 +57,14 @@ const matutaions = {
     state.address = addressArr
   },
   /* 地址 */
-  [types.DEL_ADDRESS](state, index) {
-    addressArr.splice(index, 1)
-    state.address = addressArr
+  [types.DEL_ADDRESS](state, id) {
+    const address = []
+    addressArr.forEach((item) => {
+      if (item.id !== id) {
+        address.push(item)
+      }
+    })
+    state.address = address
   },
   /* 选择地址 */
   [types.SET_CHOOSEADDRESS](state, chooseaddress) {
@@ -84,6 +92,13 @@ const matutaions = {
   /* 订单状态下标 */
   [types.SET_ORDERTAB](state, ordertab) {
     state.ordertab = ordertab
+  },
+  [types.SUBMIT_ORDER](state, order) {
+    const orderItem = {
+      detail: order,
+      status: 'SUBMIT'
+    }
+    state.orders.push(orderItem)
   }
 }
 export default matutaions
