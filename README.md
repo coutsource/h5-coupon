@@ -269,7 +269,7 @@
 # 使用说明
 
 	#克隆项目
-	git clone https://github.com/czero1995/fancy-store.git
+	git clone https://github.com/coutsource/h5-coupon.git
 	
 	# 安装依赖
 	npm install
