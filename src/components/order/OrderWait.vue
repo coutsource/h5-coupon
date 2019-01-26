@@ -52,8 +52,28 @@
 <script>
 import Headersec from '../base/HeaderSec.vue'
 import Nopage from '../base/NoPage.vue'
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import { Cell, CellGroup, Popup, CouponCell, CouponList, Toast } from 'vant'
+
+const getAvaiableCoupons = (cards) => {
+  const coupons = []
+  cards.forEach((card) => {
+    if (!card.used) {
+      coupons.push({
+        available: used,
+        discount: 0,
+        denominations: 0,
+        origin_condition: 0,
+        reason: '',
+        value: 150,
+        name: card.code,
+        start_at: card.not_before,
+        end_at: card.not_after
+      })
+    }
+  })
+  return coupons
+}
 
 export default {
   data() {
@@ -68,17 +88,18 @@ export default {
       cellTip: '',
       isChooseCard: false,
       chooseCard: {},
-      coupons: [{
-        available: 1,
-        discount: 0,
-        denominations: 0,
-        origin_condition: 0,
-        reason: '',
-        value: 100,
-        name: this.$store.state.cards[this.$store.state.cards.length - 1],
-        start_at: 1489104000,
-        end_at: 1514592000
-      }],
+      // coupons: [{
+      //   available: 1,
+      //   discount: 0,
+      //   denominations: 0,
+      //   origin_condition: 0,
+      //   reason: '',
+      //   value: 100,
+      //   name: this.$store.state.cards[this.$store.state.cards.length - 1],
+      //   start_at: 1489104000,
+      //   end_at: 1514592000
+      // }],
+      coupons: getAvaiableCoupons(this.$store.state.cards),
       disabledCoupons: []
     }
   },
@@ -98,7 +119,8 @@ export default {
       'this.$store.state.orders',
       'this.$store.state.chooseaddress',
       'this.$store.state.defaultaddress',
-      'this.$store.state.comname'
+      'this.$store.state.comname',
+      'this.$store.state.authtoken'
     ])
   },
   mounted() {
@@ -126,6 +148,9 @@ export default {
     this.setComname('orderwait')
   },
   methods: {
+    ...mapActions([
+      'submitOrder'
+    ]),
     /* 我的订单 */
     onOrder() {
       if (!this.currentAddress) {
@@ -136,7 +161,12 @@ export default {
         Toast('请选择兑换卡')
       } else {
         this.$router.push('./order')
-        this.setPays(this.$store.state.orders)
+        const data = {
+          coupon: this.isChooseCard,
+          order: this.$store.state.orders
+        }
+        this.submitOrder(this.$store.state.authtoken, data)
+        // this.setPays(this.$store.state.orders)
       }
     },
     /* 选择地址 */

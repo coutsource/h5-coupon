@@ -50,7 +50,7 @@
 import Headersec from '../base/HeaderSec.vue'
 import Footers from '../base/Footer.vue'
 import Nopage from '../base/NoPage.vue'
-import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import { SubmitBar, Checkbox, Toast } from 'vant'
 export default {
   data() {
@@ -104,9 +104,6 @@ export default {
     this.onCalAllCoach()
   },
   methods: {
-    ...mapActions([
-      'submitOrder'
-    ]),
     /* 选择单个商品 */
     onGoodsRadio(item) {
       const that = this
@@ -173,7 +170,6 @@ export default {
       })
       if (orderArr.length) {
         this.$router.push('orderwait')
-        // this.submitOrder(orderArr)
         this.setOrders(orderArr)
       } else {
         Toast('请选择商品')

@@ -113,7 +113,8 @@ export default {
               path: '/index'
             })
             this.setLogin(true)
-            this.addCard(this.number)
+            // this.addCard(this.number)
+            this.addCard(res.data.conversionCode)
             this.setUser(res.data.user)
             this.setToken('Bearer ' + res.data.user.api_token)
           } else {
