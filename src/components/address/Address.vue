@@ -114,7 +114,7 @@ export default {
     },
     /* 选择地址 */
     onSelect(item, index) {
-      this.setChooseaddress(item.address)
+      this.setChooseaddress(item)
     }
   }
 }

@@ -97,6 +97,7 @@ const formatProductGoods = (data) => {
         GoodsName: goodItem.title,
         GoodsPrice: goodItem.price,
         GoodsNum: 0,
+        GoodsId: goodItem.id,
         GoodsImage: goodItem.image,
         GoodsDescription: goodItem.description
       }
