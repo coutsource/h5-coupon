@@ -23,6 +23,7 @@
 
 <script>
 import { AddressEdit } from 'vant'
+import 'vant/lib/address-edit/style'
 import Headersec from '../base/HeaderSec.vue'
 import initCityPicker from '../../../static/js/area.js'
 import { mapGetters, mapMutations } from 'vuex'
@@ -153,6 +154,14 @@ export default {
 
 <style lang="less" scoped>
     @import '../../../static/less/variable.less';
+    .van-picker__columns ul {
+      line-height: 60px;
+    }
+
+    .van-picker-column__item {
+      height: 60px;
+    }
+
     .addressBox {
         position: fixed;
         bottom: 0;

@@ -189,7 +189,7 @@ export default {
       this.setGoods(item)
     },
     ...mapMutations({
-      // setOrders: 'SET_ORDERS',
+      setOrders: 'SET_ORDERS',
       setGoods: 'SET_GOODS',
       setComname: 'SET_COMNAME'
     })

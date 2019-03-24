@@ -1,8 +1,8 @@
 const state = {
   authtoken: '',
   address: [],
-  chooseaddress: '',
-  defaultaddress: '',
+  chooseaddress: {},
+  defaultaddress: {},
   carts: [],
   comname: 'index',
   ordercur: 1,

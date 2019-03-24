@@ -32,8 +32,8 @@ const getCoupons = (cards) => {
       reason: '',
       value: 150,
       name: card.code,
-      start_at: card.not_before,
-      end_at: card.not_after
+      start_at: new Date(card.not_before).getTime() / 1000,
+      end_at: new Date(card.not_after).getTime() / 1000
     })
   })
   return coupons

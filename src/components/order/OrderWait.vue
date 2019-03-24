@@ -12,7 +12,7 @@
               <img src="../../../static/img/icon/item_address.png" />
               <div class="flex-align-center flex-between">
                 <p v-show="!currentAddress">选择送货地址</p>
-                <p v-show="currentAddress">{{this.$store.state.chooseaddress}}</p>
+                <p v-show="currentAddress">{{this.$store.state.chooseaddress.address}}</p>
                 <img src="../../../static/img/icon/arrowRight.png" alt="" />
               </div>
             </div>
@@ -58,17 +58,17 @@ import { Cell, CellGroup, Popup, CouponCell, CouponList, Toast } from 'vant'
 const getAvaiableCoupons = (cards) => {
   const coupons = []
   cards.forEach((card) => {
-    if (!card.used) {
+    if (card && card.used !== true) {
       coupons.push({
-        available: used,
+        available: 1,
         discount: 0,
         denominations: 0,
         origin_condition: 0,
         reason: '',
         value: 150,
         name: card.code,
-        start_at: card.not_before,
-        end_at: card.not_after
+        start_at: new Date(card.not_before).getTime() / 1000,
+        end_at: new Date(card.not_after).getTime() / 1000
       })
     }
   })
@@ -78,7 +78,7 @@ const getAvaiableCoupons = (cards) => {
 export default {
   data() {
     return {
-      currentAddress: this.$store.state.chooseaddress,
+      currentAddress: this.$store.state.chooseaddress.address,
       allCoach: 0,
       havePage: false,
       mainarea: false,
@@ -160,12 +160,22 @@ export default {
       if (!this.isChooseCard) {
         Toast('请选择兑换卡')
       } else {
-        this.$router.push('./order')
+        // this.$router.push('./order')
         const data = {
-          coupon: this.isChooseCard,
-          order: this.$store.state.orders
+          address_id: this.$store.state.chooseaddress.id,
+          conversion_code: this.chooseCard.name,
+          items: this.$store.state.orders
         }
-        this.submitOrder(this.$store.state.authtoken, data)
+        this.$http.post('/api/orders/store', data, {
+          headers: {
+            'Authorization': this.$store.state.authtoken
+          }
+        }).then((reps) => {
+          data.orderId = reps.data.orderId
+          this.setPays(data)
+          this.setCardUsed(this.chosenCoupon)
+          this.$router.push('./order')
+        })
         // this.setPays(this.$store.state.orders)
       }
     },
@@ -186,7 +196,8 @@ export default {
     ...mapMutations({
       setPays: 'SET_PAYS',
       setIschoose: 'SET_ISCHOOSE',
-      setComname: 'SET_COMNAME'
+      setComname: 'SET_COMNAME',
+      setCardUsed: 'SET_CARD_USED'
     })
   }
 }

@@ -68,6 +68,19 @@ module.exports = {
         options: vueLoaderConfig
       },
       {
+        test: /\.less$/,
+        use: [
+          {
+            loader: 'less-loader',
+            options: {
+              modifyVars: {
+                'area-item-height': 60
+              }
+            }
+          }
+        ]
+      },
+      {
         test: /\.js$/,
         // loader: 'babel-loader',
         loader: 'happypack/loader?id=happy-babel-js', // 增加新的HappyPack构建loader

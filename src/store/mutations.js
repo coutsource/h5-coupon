@@ -17,7 +17,8 @@ const matutaions = {
   },
   /* 卡片管理 */
   [types.ADD_CARD](state, card) {
-    state.cards.push(card)
+    // state.cards.push(card)
+    state.cards = [card]
   },
   /* 广告管理 */
   [types.HIDE_ADERVTISING](state, ishide) {
@@ -99,6 +100,11 @@ const matutaions = {
       status: 'SUBMIT'
     }
     state.orders.push(orderItem)
+  },
+  [types.SET_CARD_USED](state, card) {
+    const cards = state.cards
+    cards[0].used = true
+    state.cards = cards
   }
 }
 export default matutaions

@@ -9,9 +9,9 @@
             <nopage></nopage>
           </div>
           <div class="order-item" v-show="havePage" v-cloak>
-            <div v-for="itemPay in $store.state.pays">
+            <div v-for="itemPay in $store.state.pays.items">
               <div class="order-top flex-between">
-                <p>订单号xxxxx</p>
+                <p>订单号: {{ $store.state.pays.orderId }}</p>
                 <p>已支付</p>
               </div>
               <div class="order-content">
