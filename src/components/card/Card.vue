@@ -19,22 +19,44 @@
 <script>
 import Headersec from '../base/HeaderSec.vue'
 import { CouponList } from 'vant'
+import { mapGetters } from 'vuex'
 
 const getCoupons = (cards) => {
   const coupons = []
   cards.forEach((card) => {
-    const used = card.used ? 1 : 0;
-    coupons.push({
-      available: used,
-      discount: 0,
-      denominations: 0,
-      origin_condition: 0,
-      reason: '',
-      value: 150,
-      name: card.code,
-      start_at: new Date(card.not_before).getTime() / 1000,
-      end_at: new Date(card.not_after).getTime() / 1000
-    })
+    if (!card.used) {
+      coupons.push({
+        available: 1,
+        reason: '',
+        value: 0,
+        name: card.code,
+        startAt: new Date(card.not_before).getTime() / 1000,
+        endAt: new Date(card.not_after).getTime() / 1000,
+        condition: '兑换卡，无门槛使用',
+        valueDesc: '0.0',
+        unitDesc: '元'
+      })
+    }
+  })
+  return coupons
+}
+
+const getDisabledCoupons = (cards) => {
+  const coupons = []
+  cards.forEach((card) => {
+    if (card.used) {
+      coupons.push({
+        available: 1,
+        reason: '',
+        value: 0,
+        name: card.code,
+        startAt: new Date(card.not_before).getTime() / 1000,
+        endAt: new Date(card.not_after).getTime() / 1000,
+        condition: '兑换卡，无门槛使用',
+        valueDesc: '0.0',
+        unitDesc: '元'
+      })
+    }
   })
   return coupons
 }
@@ -44,27 +66,20 @@ export default {
     return {
       mainarea: false,
       chosenCoupon: -1,
-      // coupons: [{
-      //   available: 1,
-      //   discount: 0,
-      //   denominations: 0,
-      //   origin_condition: 0,
-      //   reason: '',
-      //   value: 150,
-      //   name: this.$store.state.cards[this.$store.state.cards.length - 1],
-      //   start_at: 1489104000,
-      //   end_at: 1514592000
-      // }],
       coupons: getCoupons(this.$store.state.cards),
-      disabledCoupons: []
+      disabledCoupons: getDisabledCoupons(this.$store.state.cards)
     }
+  },
+  computed: {
+    ...mapGetters([
+      'this.$store.state.cards'
+    ])
   },
   components: {
     Headersec,
     [CouponList.name]: CouponList
   },
   mounted() {
-    console.log(this.$store.state.cards)
     this.mainarea = true
   },
   methods: {

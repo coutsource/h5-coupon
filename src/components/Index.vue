@@ -21,14 +21,23 @@
     <transition :name="slidename">
       <div class="container" v-show="mainarea">
         <!-- Swiper -->
-        <div class="swiper-container">
+        <!-- <div class="swiper-container">
             <div class="swiper-wrapper">
-                <div class="swiper-slide" v-for="bannerItem in bannerList">
+                <div class="swiper-slide" v-for="bannerItem in bannerList" :key="bannerItem.id">
                     <img :src="bannerItem.img" />
                 </div>
             </div>
             <div class="swiper-pagination"></div>
-        </div>
+        </div> -->
+
+        <van-row type="flex">
+          <van-swipe :autoplay="3000" :height="300" :width="1200">
+            <van-swipe-item v-for="bannerItem in bannerList" :key="bannerItem.id">
+              <img :src="bannerItem.image" />
+            </van-swipe-item>
+          </van-swipe>
+        </van-row>
+        
 
         <div class="content" v-cloak>
             <div v-for="(productItem,productIndex) in productList" class="floorItem">
@@ -36,7 +45,7 @@
                 <div class="productTop flex-between" @click="onCategory(productIndex)">
                     <p class="productTop-text">{{productItem.Category.TopText}}</p>
                     <div class="flex-align-center">
-                        <p class="productTop-text">{{productIndex+1}}F</p>
+                        <!-- <p class="productTop-text">{{productIndex+1}}F</p> -->
                         <img src="../../static/img/icon/arrowBack.png" class="arrowImg" />
                     </div>
                 </div>
@@ -75,18 +84,18 @@ import Message from './base/Message.vue'
 import '../../static/css/swiper.min.css'
 import Swiper from '../../static/js/swiper.min'
 import { mapGetters, mapMutations } from 'vuex'
-import { Row, Col, Popup, Progress } from 'vant'
+import { Row, Col, Popup, Progress, Swipe, SwipeItem, Lazyload } from 'vant'
 
-const formatBanner = (banners) => {
-  let result = []
-  result = banners.map((bannerItem) => {
-    return {
-      id: bannerItem.id,
-      img: bannerItem.image
-    }
-  })
-  return result
-}
+// const formatBanner = (banners) => {
+//   let result = []
+//   result = banners.map((bannerItem) => {
+//     return {
+//       id: bannerItem.id,
+//       img: bannerItem.image
+//     }
+//   })
+//   return result
+// }
 
 const formatProductGoods = (data) => {
   let result = []
@@ -133,16 +142,26 @@ export default {
     [Row.name]: Row,
     [Col.name]: Col,
     [Popup.name]: Popup,
-    [Progress.name]: Progress
+    [Progress.name]: Progress,
+    [Swipe.name]: Swipe,
+    [SwipeItem.name]: SwipeItem,
+    [Lazyload.name]: Lazyload
   },
   computed: {
     ...mapGetters([
       'carts',
       'comname',
-      'this.$store.state.showadvertising'
+      'this.$store.state.showadvertising',
+      'islogin'
     ])
   },
   mounted() {
+    if (!this.islogin) {
+      this.$router.push({
+        path: '/login'
+      })
+      return
+    }
     if (this.$store.state.showadvertising) {
       const percentInter = setInterval(() => {
         this.percent = this.percent - 2
@@ -200,7 +219,8 @@ export default {
           'Authorization': this.$store.state.authtoken
         }
       }).then(function(res) {
-        that.bannerList = formatBanner(res.data)
+        // that.bannerList = formatBanner(res.data)
+        that.bannerList = res.data
       })
         .catch(function(error) {
           console.log(error)

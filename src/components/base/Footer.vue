@@ -1,7 +1,7 @@
 <template>
     <footer class="flex flex-align-center">
 
-        <div class="footer-item" :class="{active:urlRouter == '/index' || urlRouter == '/'}">
+        <!-- <div class="footer-item" :class="{active:urlRouter == '/index' || urlRouter == '/'}">
             <router-link to='./index'>
                 <i class="icon footerIcon footerHomeIcon"></i>
                 <p class="footer-title">首页</p>
@@ -28,6 +28,24 @@
             <router-link to='./member'>
                 <i class="icon footerIcon footerMemberIcon"></i>
                 <p class="footer-title">我的</p>
+            </router-link>
+        </div> -->
+
+        <div class="footer-item" :class="{active:urlRouter == '/index' || urlRouter == '/'}">
+            <router-link to='./index'>
+                <!-- <i class="icon footerIcon footerHomeIcon"></i> -->
+                <p class="footer-title">商品主页</p>
+            </router-link>
+        </div>
+
+        <div class="division-item">
+            <div class="style-division"></div>
+        </div>
+
+        <div class="footer-item" :class="{active:urlRouter == '/member'}">
+            <router-link to='./member'>
+                <!-- <i class="icon footerIcon footerMemberIcon"></i> -->
+                <p class="footer-title">个人中心</p>
             </router-link>
         </div>
     </footer>
@@ -63,9 +81,22 @@ export default {
         box-shadow: 0 -2px 9px rgba(0, 0, 0, .1);
     }   
     .footer-item {
-        width: 25%;
+        width: 45%;
         text-align: center;
         position: relative;
+    }
+
+    .division-item {
+        width: 10%;
+        text-align: center;
+        position: relative;
+    }
+
+    .style-division {
+        display: inline-block;
+        width: 1px;
+        height: .44rem;
+        background-color: #969595;
     }
 
     .cart-num {

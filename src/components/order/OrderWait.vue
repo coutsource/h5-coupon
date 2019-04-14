@@ -28,6 +28,9 @@
           <van-cell-group>
             <van-cell title="兑换卡" :value="cellTip" @click="showList = true" />
           </van-cell-group>
+          <van-cell-group>
+            <van-field v-model="buyerWord" label="买家留言：" placeholder="请输入买家留言" />
+          </van-cell-group>
           <div class="orderBottom flex-between">
             <span>总金额:{{allCoach}}</span>
             <span @click="onOrder">结算</span>
@@ -53,7 +56,7 @@
 import Headersec from '../base/HeaderSec.vue'
 import Nopage from '../base/NoPage.vue'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
-import { Cell, CellGroup, Popup, CouponCell, CouponList, Toast } from 'vant'
+import { Cell, CellGroup, Popup, CouponCell, CouponList, Toast, Field } from 'vant'
 
 const getAvaiableCoupons = (cards) => {
   const coupons = []
@@ -61,14 +64,14 @@ const getAvaiableCoupons = (cards) => {
     if (card && card.used !== true) {
       coupons.push({
         available: 1,
-        discount: 0,
-        denominations: 0,
-        origin_condition: 0,
         reason: '',
-        value: 150,
+        value: 0,
         name: card.code,
-        start_at: new Date(card.not_before).getTime() / 1000,
-        end_at: new Date(card.not_after).getTime() / 1000
+        startAt: new Date(card.not_before).getTime() / 1000,
+        endAt: new Date(card.not_after).getTime() / 1000,
+        condition: '兑换卡，无门槛使用',
+        valueDesc: '0.0',
+        unitDesc: '元'
       })
     }
   })
@@ -100,7 +103,8 @@ export default {
       //   end_at: 1514592000
       // }],
       coupons: getAvaiableCoupons(this.$store.state.cards),
-      disabledCoupons: []
+      disabledCoupons: [],
+      buyerWord: ''
     }
   },
   components: {
@@ -111,7 +115,8 @@ export default {
     [Popup.name]: Popup,
     [CouponCell.name]: CouponCell,
     [CouponList.name]: CouponList,
-    [Toast.name]: Toast
+    [Toast.name]: Toast,
+    [Field.name]: Field
   },
   computed: {
     ...mapGetters([
@@ -164,7 +169,8 @@ export default {
         const data = {
           address_id: this.$store.state.chooseaddress.id,
           conversion_code: this.chooseCard.name,
-          items: this.$store.state.orders
+          items: this.$store.state.orders,
+          buyer_word: this.buyerWord
         }
         this.$http.post('/api/orders/store', data, {
           headers: {

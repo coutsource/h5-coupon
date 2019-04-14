@@ -14,10 +14,11 @@
         </div>
       </div>
     </transition>
+
   </div>
 </template>
 <script>
-import { AddressList } from 'vant'
+import { AddressList, Button } from 'vant'
 import Headersec from '../base/HeaderSec.vue'
 import Nopage from '../base/NoPage.vue'
 import { mapGetters, mapMutations } from 'vuex'
@@ -52,7 +53,8 @@ export default {
   components: {
     Headersec,
     Nopage,
-    [AddressList.name]: AddressList
+    [AddressList.name]: AddressList,
+    [Button.name]: Button
   },
   computed: {
     ...mapGetters([
@@ -115,6 +117,7 @@ export default {
     /* 选择地址 */
     onSelect(item, index) {
       this.setChooseaddress(item)
+      this.$router.push('./orderwait')
     }
   }
 }
@@ -141,10 +144,27 @@ export default {
         text-align: center;
         border-bottom: 1px solid #ccc;
     }
-    .van-radio .van-icon-checked {
-      color: #06bf04 !important;
+
+    .van-address-list .van-icon-checked {
+      color: @theme_background !important;
     }
-    .van-address-list__add .van-icon-add {
-      color: #06bf04 !important;
+
+    .bottom-btn-box {
+      position: relative;
+      margin-top: 0.2rem;
+      width: 100%;
+      height: 0.8rem;
+    }
+
+    .bottom-btn {
+      display: block;
+      width: 2rem;
+      margin: 0 auto;
+      height: 0.8rem;
+      text-align: center;
+      background-color: @theme_background;
+      color: #fff;
+      line-height: 0.8rem;
+      font-size: 0.28rem;
     }
 </style>

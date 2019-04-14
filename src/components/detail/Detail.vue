@@ -8,7 +8,7 @@
           <nopage></nopage>
         </div>
         <div v-show="havePage">
-          <img :src="$store.state.goods.GoodsImage" class="goodsImg" />
+          <div class="goodsImgBox"><img :src="$store.state.goods.GoodsImage" class="goodsImg" /></div>
           <div class="detail-content">
             <p class="goods-name">{{$store.state.goods.GoodsName}}</p>
             <p class="goods-price">¥{{$store.state.goods.GoodsPrice}}</p>
@@ -17,8 +17,9 @@
         </div>
       </div>
     </transition>
+
     <div class="detail-bottom flex-align-center flex-around">
-      <div class="toCart">
+      <!-- <div class="toCart">
         <img src="../../../static/img/icon/cart_white.png" @click="toCart" />
         <transition name="bullet" >
           <p v-show="cartNum">{{cartLength}}</p>
@@ -30,6 +31,10 @@
       </div>
       <div class="external addPay" @click="onBuyModel()">
         <span class="tabbar-label">立即购买</span>
+      </div> -->
+
+      <div class="external addPay" @click="onBuyModel()">
+        <span class="tabbar-label">立即兑换</span>
       </div>
     </div>
 
@@ -48,22 +53,22 @@
 
               <p class="goods-price">¥{{$store.state.goods.GoodsPrice}}</p>
             </div>
-
           </div>
-          <div class="cartModel-bottom flex-between">
+
+          <!-- <div class="cartModel-bottom flex-between">
             <p>购买数量</p>
             <div class="goodsOp flex">
               <img src="../../../static/img/icon/shop_cut.png" @click="onCutCart()" />
               <input type="text" :value="goodsNum" readonly="" />
               <img src="../../../static/img/icon/shop_add.png" @click="onAddCart()" />
             </div>
-          </div>
+          </div> -->
           <div @click.stop="onBuy">
           <p class="cartModel-addCart"  v-show="!isBuy">
             加入购物车
           </p>
           <p class="cartModel-addCart" v-show="isBuy">
-            立即购买
+            立即兑换
           </p>
           </div>
         </div>
@@ -174,9 +179,16 @@ export default {
     padding-top: .8rem;
     padding-bottom: .88rem;
   }
-  .goodsImg {
-    width: 100%;
+
+  .goodsImgBox {
     height: 5rem;
+    width: 100%;
+    text-align: center;
+  }
+
+  .goodsImg {
+    height: 5rem;
+    width: 5rem;
   }
 
   .detail-content {
@@ -220,10 +232,22 @@ export default {
     padding-top: .2rem;
     background: @base_color;
   }
-  .cartModel-text{
+
+  .cartModel-img {
+    width: 50%;
+    display: inline-block;
+  }
+
+  .cartModel-img img{
     width: 100%;
+    height: 100%;
+  }
+
+  .cartModel-text{
+    width: 50%;
     padding: .2rem;
   }
+
   .cartClose{
     width: .4rem;
     height: .4rem;

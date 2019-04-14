@@ -1,5 +1,6 @@
 // import * as types from './mutation-types'
 import axios from 'axios'
+import * as types from './mutation-types'
 
 // axios.defaults.baseURL = 'http://admin.wsc18.cn'
 axios.defaults.baseURL = 'http://localhost:8080'
@@ -11,4 +12,15 @@ export const submitOrder = ({ commit }, token, data) => {
       'Authorization': token
     }
   })
+}
+
+export const getOrders = ({ commit }, token) => {
+  axios.get('/api/orders', {
+    headers: {
+      'Authorization': token
+    }
+  })
+    .then((resp) => {
+      commit(types.SET_ORDERS, resp.data.orders)
+    })
 }

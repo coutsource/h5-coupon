@@ -74,7 +74,10 @@ module.exports = {
             loader: 'less-loader',
             options: {
               modifyVars: {
-                'area-item-height': 60
+                'area-item-height': 60,
+                red: '#F7AB00',
+                blue: '#F7AB00',
+                orange: '#F7AB00',
               }
             }
           }
