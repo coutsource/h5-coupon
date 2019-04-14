@@ -10,3 +10,4 @@ export const comname = state => state.comname
 export const ordercur = state => state.ordercur
 export const ordertab = state => state.ordertab
 export const islogin = state => state.islogin
+export const authtoken = state => state.authtoken

@@ -1,22 +1,21 @@
 <template>
-
   <div class="page">
     <headersec tabname="添加地址"></headersec>
-      <transition :name="slidename">
-        <div class="container" v-show="mainarea">
-          <van-address-edit
-            :area-list="addressList"
-            :address-info="addressInfo"
-            :show-postal=false
-            :show-delete="isShowDelete"
-            show-search-result
-            :search-result="searchResult"
-            @save="onSave"
-            @delete="onDelete"
-            @change-detail="onChangeDetail"
-          />
-        </div>
-      </transition>
+    <transition :name="slidename">
+      <div class="container" v-show="mainarea">
+        <van-address-edit
+          :area-list="addressList"
+          :address-info="addressInfo"
+          :show-postal=false
+          :show-delete="isShowDelete"
+          show-search-result
+          :search-result="searchResult"
+          @save="onSave"
+          @delete="onDelete"
+          @change-detail="onChangeDetail"
+        />
+      </div>
+    </transition>
   </div>
 
 </template>
@@ -116,7 +115,7 @@ export default {
       }
       if (content.is_default === true) {
         const space = ' '
-        const defaultAddress = content.province + space + content.city + space + content.county + space + content.address_detail
+        const defaultAddress = content.province + space + content.city + space + content.county + space + content.addressDetail
         setDefaultAddress(defaultAddress)
       }
       this.$router.back()

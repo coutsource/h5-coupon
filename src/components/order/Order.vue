@@ -10,7 +10,7 @@
           </div>
           <div class="order-item" v-show="havePage" v-cloak>
             <div v-for="itemPay in $store.state.pays.items">
-              <div class="order-top flex-between">
+              <!-- <div class="order-top flex-between">
                 <p>订单号: {{ $store.state.pays.orderId }}</p>
                 <p>已支付</p>
               </div>
@@ -25,9 +25,21 @@
                     <p class="goods-price">¥{{itemPay.GoodsPrice}}</p>
                   </div>
                 </div>
-              </div>
+              </div> -->
+
+              <van-card
+                num="1"
+                price="0.00"
+                title="itemPay.GoodsName"
+                :thumb="itemPay.GoodsImage"
+              >
+                <div slot="footer">
+                  <van-button size="mini">订单状态查询</van-button>
+                </div>
+              </van-card>
             </div>
           </div>
+
         </div>
       </transition>
     </v-touch>

@@ -47,7 +47,10 @@ const Card = (resolve) => {
   })
 }
 const Order = (resolve) => {
-  import('@/components/Order/Order').then((module) => {
+  // import('@/components/Order/Order').then((module) => {
+  //   resolve(module)
+  // })
+  import('@/components/Order/MyOrder').then((module) => {
     resolve(module)
   })
 }
@@ -93,6 +96,12 @@ const OrderDown = (resolve) => {
 }
 const LogisticsStep = (resolve) => {
   import('@/components/Logistics/Step').then((module) => {
+    resolve(module)
+  })
+}
+
+const OrderDone = (resolve) => {
+  import('@/components/Order/OrderDone').then((module) => {
     resolve(module)
   })
 }
@@ -218,6 +227,13 @@ export default new Router({
         requireAuth: true
       },
       component: LogisticsStep
+    },
+    {
+      path: '/orderdone',
+      meta: {
+        requireAuth: true
+      },
+      component: OrderDone
     }
   ]
 })
